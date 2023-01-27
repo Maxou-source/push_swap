@@ -6,7 +6,7 @@
 /*   By: mparisse <mparisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 00:58:49 by mparisse          #+#    #+#             */
-/*   Updated: 2023/01/26 05:28:42 by mparisse         ###   ########.fr       */
+/*   Updated: 2023/01/27 13:39:59 by mparisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,16 @@ typedef struct t_pushswap
 	int		size_final_heada;
 	int		min_cout_value;
 }	t_pushswap;
+
+typedef struct s_countmoves
+{
+	int	count_ra;
+	int	count_rra;
+	int	count_rb;
+	int	count_rrb;
+	int	count_rr;
+	int	count_rrr;
+}	t_countmoves;
 
 int	*sort_tab(t_head* head);
 

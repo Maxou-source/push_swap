@@ -6,7 +6,7 @@
 /*   By: mparisse <mparisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 15:11:59 by mparisse          #+#    #+#             */
-/*   Updated: 2023/01/26 13:55:20 by mparisse         ###   ########.fr       */
+/*   Updated: 2023/01/27 14:13:15 by mparisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,206 +227,94 @@ int get_min_price_index(t_pushswap *pushswap)
 	return (index);
 }
 
-void daron_algo_4(t_pushswap *pushswap)
+void	fill_count_moves(int *go, t_countmoves *countmoves)
 {
-	// int 	ret_ff;
-	// int price;
-	int count_coup;
-	int tmp;
-	// t_pile	*tmp;
-	// int	*tab;
-	int go[4];
-	// ft_printf("______PILE A_____\n");
-	// print_head(pushswap->heada);
-	// ft_printf("______PILE B_____\n");
-	// print_head(pushswap->headb);
-	// push_a(pushswap);
-	// r_rotate(pushswap->heada, 'a');
-	// tmp = pushswap->headb->first;
-	while (pushswap->headb->size)
+	if (go[0] == 0)
 	{
-		go[0] = get_min_price_index(pushswap);							// prix minimum de l'index dans la pile b
-		go[1] = find_number_according_to_index(pushswap->headb, go[0]); // num
-		go[2] = find_father_2(pushswap, go[1]);							// index prix minimum pile a
-		go[3] = calcul_prix(pushswap, go[2], go[0]);				// le prix total
-		if (go[0] == go[2])
+		countmoves->count_rb = 0;
+		countmoves->count_rrb = 0;
+	}
+	else
+	{
+		if (go[0] > 0)
 		{
-			printf("ok0\n");
-			if (go[0] < 0)
-			{
-				while (go[3] != 0)
-				{
-					rrr(pushswap);
-					go[3]--;
-				}
-				push_a(pushswap);
-			}
-			else if (go[0] > 0)
-			{
-				while (go[3] != 0)
-				{
-					rr(pushswap);
-					go[3]--;
-				}
-				push_a(pushswap);
-			}
-			else
-				push_a(pushswap);
+			countmoves->count_rb = go[0];
+			countmoves->count_rrb = 0;
 		}
-		else if (go[0] < 0 && go[2] < 0)
+		else if (go[0] < 0)
 		{
-			printf("ok1\n");
-			if (go[0] < go[2])
-			{
-				count_coup = abs(go[2]);
-				while (go[3] != count_coup)
-				{
-					// ft_printf("ici");
-					r_rotate(pushswap->heada, 'a');
-					go[3]--;
-				}
-				while (go[3] != 0)
-				{
-					rrr(pushswap);
-					go[3]--;
-				}
-				push_a(pushswap);
-			}
-			else if (go[0] > go[2])
-			{
-				count_coup = abs(go[0]);
-				while (go[3] != count_coup)
-				{
-					rr(pushswap);
-					go[3]--;
-				}
-				while (go[3] != 0)
-				{
-					r_rotate(pushswap->headb, 'b');
-					go[3]--;
-				}
-				push_a(pushswap);
-			}
+			countmoves->count_rrb = abs(go[0]);
+			countmoves->count_rb = 0;
 		}
-		// else if (go[0] > 0 && go[2] > 0)
-		// {
-		// 	printf("ok2\n");
-		// 	if (go[0] < go[2])
-		// 	{
-		// 		count_coup = abs(go[0]);
-		// 		while (go[3] != count_coup)
-		// 		{
-		// 			rotate(pushswap->heada, 'a');
-		// 			go[3]--;
-		// 		}
-		// 		while (go[3] != 0)
-		// 		{
-		// 			rr(pushswap);
-		// 			go[3]--;
-		// 		}
-		// 		push_a(pushswap);
-		// 	}
-		// 	else if (go[0] > go[2])
-		// 	{
-		// 		count_coup = abs(go[2]);
-		// 		while (go[3] != count_coup)
-		// 		{
-		// 			r_rotate(pushswap->headb, 'b');
-		// 			go[3]--;
-		// 		}
-		// 		while (go[3] != 0)
-		// 		{
-		// 			rr(pushswap);
-		// 			go[3]--;
-		// 		}
-		// 		push_a(pushswap);
-		// 	}
-		// }
 		else
 		{
-			printf("ok3\n");
-			if (go[0] == 0)
-			{
-				// count_coup = abs(go[2]);
-				// while (count_coup != 0)
-				// {
-				// 	rotate(pushswap->headb, 'b');
-				// 	count_coup--;
-				// }
-				count_coup = abs(go[2]);
-				if (go[2] < 0)
-				{
-					while (count_coup != 0)
-					{
-						r_rotate(pushswap->heada, 'a');
-						count_coup--;
-					}
-					// push_a(pushswap);
-				}
-				else if (go[2] > 0)
-				{
-					while (count_coup != 0)
-					{
-						rotate(pushswap->heada, 'a');
-						count_coup--;
-					}
-				}
-				push_a(pushswap);
-			}
-			else if (go[2] == 0)
-			{
-				count_coup = abs(go[0]);
-				if (go[0] > 0)
-				{
-					while (count_coup != 0)
-					{
-						rotate(pushswap->headb, 'b');
-						count_coup--;
-					}
-				}
-				else if (go[0] < 0)
-				{
-					while (count_coup != 0)
-					{
-						r_rotate(pushswap->headb, 'b');
-						count_coup--;
-					}
-				}
-				push_a(pushswap);
-			}
-			else
-			{
-				go[0] = find_father_2(pushswap, pushswap->headb->first->nb);
-				go[1] = find_number_according_to_index(pushswap->heada, go[0]);
-				while (pushswap->heada->first->nb != go[1])
-				{
-					rotate(pushswap->heada, 'a');
-				}
-				push_a(pushswap);
-			}
+			printf("il y a eu un souci \n");
+			exit(0);
 		}
 	}
-		// printf("le min price est %d c'est %d daron %d\n", go[0], go[1], go[2]);
-		// printf("coup total %d\n",)
+	if (go[2] == 0)
+	{
+		countmoves->count_ra = 0;
+		countmoves->count_rra = 0;
+	}
+	else
+	{
+		if (go[2] > 0)
+		{
+			countmoves->count_ra = go[2];
+			countmoves->count_rra = 0;
+		}
+		else if (go[2] < 0)
+		{
+			countmoves->count_rra = go[2];
+			countmoves->count_ra = 0; 
+		}
+		else
+		{
+			printf("il y a eu un souci \n");
+			exit(0);
+		}
+	}
+}
+
+// rra 0 // ra 60
+void	fill_count_moves_rr(t_countmoves *countmoves)
+{
+	if (countmoves->count_ra - countmoves->count_rb > 0 || countmoves->count_rb - countmoves->count_ra > 0 )
+		countmoves->count_rr = abs(countmoves->count_rb - countmoves->count_ra);
+	if (countmoves->count_rra - countmoves->count_rrb > 0 || countmoves->count_rrb - countmoves->count_rra > 0)
+		countmoves->count_rrr = abs(countmoves->count_rra - countmoves->count_rrb);
+}
+
+void daron_algo_4(t_pushswap *pushswap)
+{
+	t_countmoves countmoves;
+	int tmp;
+	int go[4];
+
+	go[0] = get_min_price_index(pushswap);							// prix minimum de l'index dans la pile b
+	go[1] = find_number_according_to_index(pushswap->headb, go[0]); // num
+	go[2] = find_father_2(pushswap, go[1]);							// index prix minimum pile a
+	go[3] = calcul_prix(pushswap, go[2], go[0]);				    // le prix total
+	fill_count_moves(go, &countmoves);
+	printf("count moves ra  %d\n", countmoves.count_ra);
+	printf("count moves rra %d\n", countmoves.count_rra);
+	printf("count moves rb  %d\n", countmoves.count_rb);
+	printf("count moves rrb %d\n", countmoves.count_rrb);
+	
+	// fill_count_moves_rr(&countmoves);
+	// printf("go0 >> %d\n",go[0]);
+	// printf("go1 >> %d\n",go[1]);
+	// printf("go2 >> %d\n",go[2]);
+	// printf("go3 >> %d\n",go[3]);
 	tmp = find_min(pushswap->heada);
 	tmp = find_number_according_to_index(pushswap->heada, tmp);
 	while (pushswap->heada->first->nb != tmp)
 	{
 		rotate(pushswap->heada, 'a');
 	}
-	printf("tmp >> %d\n", tmp);
 	ft_printf("______PILE A_____\n");
 	print_head(pushswap->heada);
 	ft_printf("______PILE B_____\n");
 	print_head(pushswap->headb);
-	// go[3] =
-	// go[3] = find_min_price_nb(pushswap);
-	// ret_ff = find_father_2(pushswap, tmp);
-	// price = calcul_prix(pushswap ,ret_ff, tmp->index);
-	// printf("le prix de %d est %d \n",tmp->nb, price);
-	// if (!tmp)
-	// break ;
-	// tmp = tmp->next;
-	// (void)price;
-	// ft_printf("ret ff >> %d\n", ret_ff);
 }
