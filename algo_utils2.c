@@ -6,7 +6,7 @@
 /*   By: mparisse <mparisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 15:11:59 by mparisse          #+#    #+#             */
-/*   Updated: 2023/01/27 14:13:15 by mparisse         ###   ########.fr       */
+/*   Updated: 2023/01/27 21:38:13 by mparisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,7 @@ int get_min_price_index(t_pushswap *pushswap)
 
 void	fill_count_moves(int *go, t_countmoves *countmoves)
 {
+	// printf("go[2]>> %d\n", go[2]);
 	if (go[0] == 0)
 	{
 		countmoves->count_rb = 0;
@@ -238,17 +239,23 @@ void	fill_count_moves(int *go, t_countmoves *countmoves)
 	{
 		if (go[0] > 0)
 		{
+			// printf("haja\n");
 			countmoves->count_rb = go[0];
 			countmoves->count_rrb = 0;
+			countmoves->count_rra = 0;
+			countmoves->count_ra = 0;
 		}
 		else if (go[0] < 0)
 		{
+			// printf("haja\n");
 			countmoves->count_rrb = abs(go[0]);
 			countmoves->count_rb = 0;
+			countmoves->count_rra = 0;
+			countmoves->count_ra = 0;
 		}
 		else
 		{
-			printf("il y a eu un souci \n");
+			// printf("il y a eu un souci \n");
 			exit(0);
 		}
 	}
@@ -266,12 +273,12 @@ void	fill_count_moves(int *go, t_countmoves *countmoves)
 		}
 		else if (go[2] < 0)
 		{
-			countmoves->count_rra = go[2];
+			countmoves->count_rra = abs(go[2]);
 			countmoves->count_ra = 0; 
 		}
 		else
 		{
-			printf("il y a eu un souci \n");
+			// printf("il y a eu un souci \n");
 			exit(0);
 		}
 	}
@@ -280,41 +287,161 @@ void	fill_count_moves(int *go, t_countmoves *countmoves)
 // rra 0 // ra 60
 void	fill_count_moves_rr(t_countmoves *countmoves)
 {
+	if(countmoves->count_ra && countmoves->count_rb && countmoves->count_rra && countmoves->count_rrb)
+	{
+		if (countmoves->count_rra == countmoves->count_rrb)
+		{
+			// printf("haja\n");
+			
+			countmoves->count_rrr = countmoves->count_rrb;
+			countmoves->count_rrb = 0;
+			countmoves->count_rra = 0;
+			countmoves->count_rr = 0;
+			countmoves->count_ra = 0;
+			countmoves->count_rb = 0;
+			// countmoves->count_rra = 0;
+			return ;
+		}
+		if (countmoves->count_ra == countmoves->count_rb)
+		{
+			// printf("haja\n");
+			countmoves->count_rr = countmoves->count_rb;
+			countmoves->count_rb = 0;
+			countmoves->count_ra = 0;
+			countmoves->count_rra = 0;
+			countmoves->count_rrb = 0;
+			countmoves->count_rrr = 0;
+			return ;
+		}
+	}
+	else
+	{
+		countmoves->count_rr = 0;
+		countmoves->count_rrr = 0;
+		return ;
+	}
 	if (countmoves->count_ra - countmoves->count_rb > 0 || countmoves->count_rb - countmoves->count_ra > 0 )
+	{
+		// printf("haja\n");
 		countmoves->count_rr = abs(countmoves->count_rb - countmoves->count_ra);
-	if (countmoves->count_rra - countmoves->count_rrb > 0 || countmoves->count_rrb - countmoves->count_rra > 0)
+		// printf("countrr %d\n", countmoves->count_rr);
+		if (countmoves->count_ra > countmoves->count_rb)
+		{
+			countmoves->count_ra = countmoves->count_rr - countmoves->count_rb;
+			countmoves->count_rb = 0;
+		}
+		if (countmoves->count_rb > countmoves->count_ra)
+		{
+			countmoves->count_rb = countmoves->count_rr - countmoves->count_ra;
+			countmoves->count_ra = 0;
+		}
+		countmoves->count_rra = 0;
+		countmoves->count_rrb = 0;
+		countmoves->count_rrr = 0;
+		return ;
+	}
+	else if (countmoves->count_rra - countmoves->count_rrb > 0 || countmoves->count_rrb - countmoves->count_rra > 0)
+	{
 		countmoves->count_rrr = abs(countmoves->count_rra - countmoves->count_rrb);
+		if (countmoves->count_rra > countmoves->count_rrb)
+		{
+			countmoves->count_rra = countmoves->count_rrr - countmoves->count_rrb;
+			countmoves->count_rrb = 0;
+		}
+		if (countmoves->count_rrb > countmoves->count_rra)
+		{
+			countmoves->count_rrb = countmoves->count_rrr - countmoves->count_rra;
+			countmoves->count_rra = 0;
+		}
+		countmoves->count_ra = 0;
+		countmoves->count_rb = 0;
+		countmoves->count_rr = 0;
+		return ;
+	}
 }
 
 void daron_algo_4(t_pushswap *pushswap)
 {
 	t_countmoves countmoves;
 	int tmp;
+	int i;
 	int go[4];
 
-	go[0] = get_min_price_index(pushswap);							// prix minimum de l'index dans la pile b
-	go[1] = find_number_according_to_index(pushswap->headb, go[0]); // num
-	go[2] = find_father_2(pushswap, go[1]);							// index prix minimum pile a
-	go[3] = calcul_prix(pushswap, go[2], go[0]);				    // le prix total
-	fill_count_moves(go, &countmoves);
-	printf("count moves ra  %d\n", countmoves.count_ra);
-	printf("count moves rra %d\n", countmoves.count_rra);
-	printf("count moves rb  %d\n", countmoves.count_rb);
-	printf("count moves rrb %d\n", countmoves.count_rrb);
-	
+	i = 0;
+	while (pushswap->headb->size)
+	{
+		// ft_printf("______PILE A_____\n");
+		// print_head(pushswap->heada);
+		// ft_printf("______PILE B_____\n");
+		// print_head(pushswap->headb);
+		go[0] = get_min_price_index(pushswap);							// prix minimum de l'index dans la pile b
+		go[1] = find_number_according_to_index(pushswap->headb, go[0]); // num
+		go[2] = find_father_2(pushswap, go[1]);							// index prix minimum pile a
+		go[3] = calcul_prix(pushswap, go[2], go[0]);				    // le prix total
+		fill_count_moves(go, &countmoves);
+		fill_count_moves_rr(&countmoves);
+		while (countmoves.count_ra)
+		{
+			rotate(pushswap->heada, 'a');
+			countmoves.count_ra--;
+		}
+		while (countmoves.count_rb)
+		{
+			rotate(pushswap->headb, 'b');
+			countmoves.count_rb--;
+		}
+		while (countmoves.count_rr)
+		{
+			rr(pushswap);
+			printf("rr %d\n", countmoves.count_rr);
+			countmoves.count_rr--;
+		}
+		while (countmoves.count_rra)
+		{
+			r_rotate(pushswap->heada, 'a');
+			countmoves.count_rra--;
+		}
+		while (countmoves.count_rrb)
+		{
+			r_rotate(pushswap->headb, 'b');
+			countmoves.count_rrb--;
+		}
+		while (countmoves.count_rrr)
+		{
+			rrr(pushswap);
+			countmoves.count_rrr--;
+		}
+		push_a(pushswap);
+		i++;
+	}
+	// ft_printf("______PILE A_____\n");
+	// print_head(pushswap->heada);
+	// ft_printf("______PILE B_____\n");
+	// print_head(pushswap->headb);
+	// go[0] = get_min_price_index(pushswap);							// prix minimum de l'index dans la pile b
+	// go[1] = find_number_according_to_index(pushswap->headb, go[0]); // num
+	// go[2] = find_father_2(pushswap, go[1]);							// index prix minimum pile a
+	// go[3] = calcul_prix(pushswap, go[2], go[0]);				    // le prix total
+	// fill_count_moves(go, &countmoves);
 	// fill_count_moves_rr(&countmoves);
+	// printf("count moves ra  %d\n", countmoves.count_ra);
+	// printf("count moves rra %d\n", countmoves.count_rra);
+	// printf("count moves rb  %d\n", countmoves.count_rb);
+	// printf("count moves rrb %d\n", countmoves.count_rrb);
+	
+	(void) tmp;
 	// printf("go0 >> %d\n",go[0]);
 	// printf("go1 >> %d\n",go[1]);
 	// printf("go2 >> %d\n",go[2]);
 	// printf("go3 >> %d\n",go[3]);
-	tmp = find_min(pushswap->heada);
-	tmp = find_number_according_to_index(pushswap->heada, tmp);
-	while (pushswap->heada->first->nb != tmp)
-	{
-		rotate(pushswap->heada, 'a');
-	}
-	ft_printf("______PILE A_____\n");
-	print_head(pushswap->heada);
-	ft_printf("______PILE B_____\n");
-	print_head(pushswap->headb);
+	// tmp = find_min(pushswap->heada);
+	// tmp = find_number_according_to_index(pushswap->heada, tmp);
+	// while (pushswap->heada->first->nb != tmp)
+	// {
+	// 	rotate(pushswap->heada, 'a');
+	// }
+	// ft_printf("______PILE A_____\n");
+	// print_head(pushswap->heada);
+	// ft_printf("______PILE B_____\n");
+	// print_head(pushswap->headb);
 }
