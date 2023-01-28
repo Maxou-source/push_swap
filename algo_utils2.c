@@ -6,7 +6,7 @@
 /*   By: mparisse <mparisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 15:11:59 by mparisse          #+#    #+#             */
-/*   Updated: 2023/01/27 21:38:13 by mparisse         ###   ########.fr       */
+/*   Updated: 2023/01/28 00:35:32 by mparisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void fill_index_b(t_head *head)
 		return;
 	i = 0;
 	tmp = head->first;
-	// ft_printf("head_>size >> %d \n", head->size);
 	while (i < head->size / 2 + 1)
 	{
 		tmp->index = i;
@@ -39,65 +38,65 @@ void fill_index_b(t_head *head)
 	}
 }
 
-int find_father(t_pushswap *pushswap, t_pile *node)
-{
-	t_pile *stack_a;
-	int findsup;
-	int i;
-	int j;
-	int min;
-	int index;
+// int find_father(t_pushswap *pushswap, t_pile *node)
+// {
+// 	t_pile *stack_a;
+// 	int findsup;
+// 	int i;
+// 	int j;
+// 	int min;
+// 	int index;
 
-	(void)index;
-	i = 0;
-	j = -1;
-	index = j;
-	stack_a = pushswap->heada->first;
-	while (stack_a)
-	{
-		if (stack_a->nb > node->nb)
-		{
-			j = i;
-			index = stack_a->index;
-			findsup = stack_a->nb;
-			break;
-		}
-		i++;
-		stack_a = stack_a->next;
-	}
-	stack_a = pushswap->heada->first;
-	while (stack_a)
-	{
-		if (stack_a->nb > node->nb && stack_a->nb < findsup)
-		{
-			j = i;
-			index = stack_a->index;
-			findsup = stack_a->nb;
-		}
-		i++;
-		stack_a = stack_a->next;
-	}
-	if (j != -1)
-	{
-		return (j);
-	}
-	i = 0;
-	j = 0;
-	stack_a = pushswap->heada->first;
-	min = pushswap->heada->first->nb;
-	while (stack_a)
-	{
-		if (min > stack_a->nb)
-		{
-			j = i;
-			min = stack_a->nb;
-		}
-		i++;
-		stack_a = stack_a->next;
-	}
-	// printf("min %d \n", min);
-	return (j);
-}
+// 	(void)index;
+// 	i = 0;
+// 	j = -1;
+// 	index = j;
+// 	stack_a = pushswap->heada->first;
+// 	while (stack_a)
+// 	{
+// 		if (stack_a->nb > node->nb)
+// 		{
+// 			j = i;
+// 			index = stack_a->index;
+// 			findsup = stack_a->nb;
+// 			break;
+// 		}
+// 		i++;
+// 		stack_a = stack_a->next;
+// 	}
+// 	stack_a = pushswap->heada->first;
+// 	while (stack_a)
+// 	{
+// 		if (stack_a->nb > node->nb && stack_a->nb < findsup)
+// 		{
+// 			j = i;
+// 			index = stack_a->index;
+// 			findsup = stack_a->nb;
+// 		}
+// 		i++;
+// 		stack_a = stack_a->next;
+// 	}
+// 	if (j != -1)
+// 	{
+// 		return (j);
+// 	}
+// 	i = 0;
+// 	j = 0;
+// 	stack_a = pushswap->heada->first;
+// 	min = pushswap->heada->first->nb;
+// 	while (stack_a)
+// 	{
+// 		if (min > stack_a->nb)
+// 		{
+// 			j = i;
+// 			min = stack_a->nb;
+// 		}
+// 		i++;
+// 		stack_a = stack_a->next;
+// 	}
+// 	// printf("min %d \n", min);
+// 	return (j);
+// }
 
 int find_min(t_head *heada)
 {
@@ -429,17 +428,28 @@ void daron_algo_4(t_pushswap *pushswap)
 	// printf("count moves rb  %d\n", countmoves.count_rb);
 	// printf("count moves rrb %d\n", countmoves.count_rrb);
 	
-	(void) tmp;
+	// (void) tmp;
 	// printf("go0 >> %d\n",go[0]);
 	// printf("go1 >> %d\n",go[1]);
 	// printf("go2 >> %d\n",go[2]);
 	// printf("go3 >> %d\n",go[3]);
-	// tmp = find_min(pushswap->heada);
-	// tmp = find_number_according_to_index(pushswap->heada, tmp);
-	// while (pushswap->heada->first->nb != tmp)
-	// {
-	// 	rotate(pushswap->heada, 'a');
-	// }
+	tmp = find_min(pushswap->heada);
+	if (tmp < 0)
+	{
+		tmp = find_number_according_to_index(pushswap->heada, tmp);
+		while (pushswap->heada->first->nb != tmp)
+		{
+			r_rotate(pushswap->heada, 'a');
+		}
+	}
+	else if (tmp > 0)
+	{
+		tmp = find_number_according_to_index(pushswap->heada, tmp);
+		while (pushswap->heada->first->nb != tmp)
+		{
+			rotate(pushswap->heada, 'a');
+		}
+	}
 	// ft_printf("______PILE A_____\n");
 	// print_head(pushswap->heada);
 	// ft_printf("______PILE B_____\n");

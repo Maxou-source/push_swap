@@ -6,7 +6,7 @@
 /*   By: mparisse <mparisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 00:55:35 by mparisse          #+#    #+#             */
-/*   Updated: 2023/01/26 01:31:39 by mparisse         ###   ########.fr       */
+/*   Updated: 2023/01/28 00:56:11 by mparisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void algo_for_five(t_pushswap *pushswap)
 		swap(pushswap->headb, 'b');
 	push_a(pushswap);
 	push_a(pushswap);
+	free(sorted_tab);
 }
 
 int *sort_tab(t_head *head)
@@ -43,6 +44,8 @@ int *sort_tab(t_head *head)
 
 	i = 0;
 	tab = malloc(sizeof(int) * head->size);
+	if (!tab)
+		return (0);
 	if (!tab)
 		return (0);
 	tmp = head->first;
@@ -74,16 +77,46 @@ int *sort_tab(t_head *head)
 
 int	ft_already_sort(t_pile *lst);
 
+void	free_tout(t_pushswap *pushswap)
+{
+	t_pile	*tmp;
+	t_pile	*keep;
+	
+	tmp = pushswap->heada->first;
+	while (tmp)
+	{
+		keep = tmp->next;
+		free(tmp);
+		tmp = keep;
+	}
+	free(pushswap->headb);
+	free(pushswap->heada);
+	free(pushswap);
+}
+
+void	free_temp(char **str)
+{
+	int	i;
+	
+	i = 0;
+	while(str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
+}
+
 void start_ps(int ac, char **av)
 {
-	int i;
-	int *sorted_tab;
-	int size_final;
-	t_head *heada;
-	t_head *headb;
-	t_pushswap *pushswap;
-	char **temp;
-	int j;
+	int			i;
+	// int			*sorted_tab;
+	// int 		size_final;
+	t_head		*heada;
+	t_head		*headb;
+	t_pushswap	*pushswap;
+	char 		**temp;
+	int 		j;
 
 	heada = 0;
 	headb = 0;
@@ -99,6 +132,10 @@ void start_ps(int ac, char **av)
 	while (i < ac)
 	{
 		temp = ft_split(av[i], ' ');
+		if (!temp)
+		{
+			free_tout(pushswap);
+		}
 		j = 0;
 		while (temp[j])
 		{
@@ -106,6 +143,7 @@ void start_ps(int ac, char **av)
 			j++;
 		}
 		i++;
+		free_temp(temp);
 	}
 	if (check_list_sorted(heada) == 0)
 	{
@@ -118,24 +156,22 @@ void start_ps(int ac, char **av)
 		exit(0);
 	}
 	pushswap->size_final_heada = pushswap->heada->size;
-	sorted_tab = sort_tab(pushswap->heada);
-	(void)size_final;
-	(void)sorted_tab;
 	if (heada->size == 5)
 	{
 		algo_for_five(pushswap);
+		free_tout(pushswap);
 		return;
 	}
+	if (heada->size == 2)
+	{
+		r_rotate(heada, 'a');
+		return ;
+	}
 	push_to_b_from_mediane(pushswap);
-	// r_rotate(pushswap->headb, 'b');
-	// push_a(pushswap);
 	algo_for_three(pushswap->heada);
 	daron_algo_4(pushswap);
-	// ft_already_sort(pushswap->heada->first);
-	// ft_printf("______PILE A_____\n");
-	// print_head(pushswap->heada);
-	// ft_printf("______PILE B_____\n");
-	// print_head(pushswap->headb);
+	ft_already_sort(pushswap->heada->first);
+	free_tout(pushswap);
 }
 
 int	ft_already_sort(t_pile *lst)
@@ -179,8 +215,12 @@ int parsing(int ac, char **av)
 		if (!str || !*str)
 			return (0);
 		if (check_numbers(ac, str) == 0)
+		{
+			free_temp(str);
 			return (0);
+		}
 		i++;
+		free_temp(str);
 	}
 	return (1);
 }
