@@ -12,68 +12,66 @@
 
 #include "push_swap.h"
 
-int find_mediane(t_head *head, int *sorted_tab)
+int	find_mediane(t_head *head, int *sorted_tab)
 {
-	int mediane;
+	int	mediane;
 
-	if (head->size % 2 == 0)
-		mediane = sorted_tab[(head->size / 2) - 1];
-	else
-		mediane = sorted_tab[head->size / 2];
-	// printf("la mediane est %d\n", mediane);
+	mediane = sorted_tab[(head->size / 2) - 1];
 	return (mediane);
 }
 
-int	find_mean(t_head *head)
+int	numbers_above_median(t_pushswap *pushswap, int mediane)
 {
 	t_pile	*tmp;
-	int	sum;
-	
-	tmp = head->first;
-	sum = 0;
+
+	tmp = pushswap->heada->first;
 	while (tmp)
 	{
-		sum = sum + tmp->nb;
+		if (tmp->nb > mediane)
+			return (1);
 		tmp = tmp->next;
 	}
-	return (sum / head->size);
+	return (0);
 }
 
-void push_to_b_from_mediane(t_pushswap *pushswap)
+int	push_to_b_from_mediane(t_pushswap *pushswap)
 {
-	int mediane;
-	int *sorted_tab;
+	int	mediane;
+	int	*sorted_tab;
 
 	sorted_tab = sort_tab(pushswap->heada);
-	mediane = find_mediane(pushswap->heada, sorted_tab);
+	mediane = sorted_tab[(pushswap->heada->size / 2) - 1];
 	free(sorted_tab);
 	while (pushswap->heada->size > 3)
 	{
 		sorted_tab = sort_tab(pushswap->heada);
-		if (pushswap->heada->first->nb > mediane && pushswap->heada->first->nb != sorted_tab[2])
+		if (!sorted_tab)
+			return (0);
+		mediane = sorted_tab[(pushswap->heada->size / 2) - 1];
+		while (numbers_above_median(pushswap, mediane))
 		{
-			push_b(pushswap);
-			mediane = find_mediane(pushswap->heada, sorted_tab);
+			if (pushswap->heada->first->nb > mediane)
+			{
+				push_b(pushswap);
+			}
+			else
+				rotate(pushswap->heada, 'a');
 		}
-		else
-			rotate(pushswap->heada, 'a');
 		free(sorted_tab);
 	}
+	return (1);
 }
 
-
-void algo_for_three(t_head *head)
+void	algo_for_three(t_head *head)
 {
-	t_pile *tmp;
-	// int		*sorted_tab;
+	t_pile	*tmp;
 
 	tmp = head->last;
-	// sorted_tab = sort_tab(head);
 	while (tmp)
 	{
 		tmp = head->last;
 		if ((tmp->nb < tmp->previous->nb) && (tmp->nb < head->first->nb))
-			break;
+			break ;
 		rotate(head, 'a');
 	}
 	if (head->first->nb > head->first->next->nb)
@@ -83,4 +81,29 @@ void algo_for_three(t_head *head)
 	}
 	else
 		r_rotate(head, 'a');
+}
+
+void	fill_index_b(t_head *head)
+{
+	int		i;
+	t_pile	*tmp;
+
+	if (head->size == 0)
+		return ;
+	i = 0;
+	tmp = head->first;
+	while (i < head->size / 2 + 1)
+	{
+		tmp->index = i;
+		tmp = tmp->next;
+		i++;
+	}
+	i = 1;
+	tmp = head->last;
+	while (i < head->size / 2 + 1)
+	{
+		tmp->index = i * -1;
+		tmp = tmp->previous;
+		i++;
+	}
 }

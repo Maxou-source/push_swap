@@ -74,3 +74,42 @@ int	check_list_duplicates(t_head *heada)
 	}
 	return (1);
 }
+
+int	parsing(int ac, char **av)
+{
+	char	**str;
+	int		i;
+
+	i = 1;
+	while (av[i])
+	{
+		str = ft_split(av[i], ' ');
+		if (!str || !*str)
+			return (0);
+		if (check_numbers(ac, str) == 0)
+		{
+			free_temp(str);
+			return (0);
+		}
+		i++;
+		free_temp(str);
+	}
+	return (1);
+}
+
+int	last_parsing(t_pushswap *pushswap)
+{
+	if (check_list_sorted(pushswap->heada) == 0)
+	{
+		ft_putstr_fd("Error\n", 2);
+		free_tout(pushswap);
+		exit(0);
+	}
+	if (check_list_duplicates(pushswap->heada) == 0)
+	{
+		ft_putstr_fd("Error\n", 2);
+		free_tout(pushswap);
+		exit(0);
+	}
+	return (1);
+}

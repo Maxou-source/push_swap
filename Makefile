@@ -10,7 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRCS = psh_swp.c parsing.c movements.c utils.c tmp_utils.c algo_utils.c algo_utils2.c
+SRCS = main.c parsing.c movements.c utils.c tmp_utils.c algo_utils.c algo_utils_3.c \
+algo_utils_2.c freee.c movements_2.c 
 
 OBJS = ${SRCS:.c=.o}
 

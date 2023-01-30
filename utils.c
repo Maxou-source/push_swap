@@ -12,13 +12,13 @@
 
 #include "push_swap.h"
 
-void	add_back(t_head *head, int value)
+int	add_back(t_head *head, int value)
 {
 	t_pile	*res;
 
 	res = ft_calloc(sizeof(t_pile), 1);
 	if (!res)
-		return ;
+		return (0);
 	res->nb = value;
 	res->next = NULL;
 	res->previous = head->last;
@@ -31,6 +31,7 @@ void	add_back(t_head *head, int value)
 	}
 	head->last = res;
 	head->size++;
+	return (1);
 }
 
 void	add_front(t_head *head, int value)
@@ -75,4 +76,33 @@ void	init_ldc(t_head **head)
 	(*head)->first = NULL;
 	(*head)->last = NULL;
 	(*head)->size = 0;
+}
+
+t_pushswap	*init_pushswap_ldc(t_pushswap *pushswap)
+{
+	t_head	*heada;
+	t_head	*headb;
+
+	heada = ft_calloc(sizeof(t_head), 1);
+	if (!heada)
+		exit(0);
+	headb = ft_calloc(sizeof(t_head), 1);
+	if (!heada)
+		return (free(heada), exit(0), pushswap);
+	heada->first = NULL;
+	heada->last = NULL;
+	heada->size = 0;
+	headb->first = NULL;
+	headb->last = NULL;
+	headb->size = 0;
+	pushswap = malloc(sizeof(pushswap));
+	if (!pushswap)
+	{
+		free(heada);
+		free(headb);
+		exit(0);
+	}
+	pushswap->heada = heada;
+	pushswap->headb = headb;
+	return (pushswap);
 }

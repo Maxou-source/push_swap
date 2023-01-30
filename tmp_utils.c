@@ -12,19 +12,19 @@
 
 #include "push_swap.h"
 
-void print_tab(int *tab, int size)
-{
-	int i;
+// void	print_tab(int *tab, int size)
+// {
+// 	int	i;
 
-	i = -1;
-	while (++i < size)
-		ft_printf("[%i]%d \n",i, tab[i]);
-	ft_printf("\n");
-}
+// 	i = -1;
+// 	while (++i < size)
+// 		ft_printf("[%i]%d \n",i , tab[i]);
+// 	ft_printf("\n");
+// }
 
-void print_head(t_head *head)
+void	print_head(t_head *head)
 {
-	t_pile *tmp;
+	t_pile	*tmp;
 
 	if (!head->first)
 		return ;
@@ -33,10 +33,10 @@ void print_head(t_head *head)
 	{
 		ft_printf("nb : %d       ", tmp->nb);
 		ft_printf("index : %d\n", tmp->index);
-		// ft_printf("Actual: %p\n", tmp);
-		// ft_printf("Prev: %p\n", tmp->previous);
-		// ft_printf("Next: %p\n\n", tmp->next);
 		tmp = tmp->next;
 	}
 	ft_printf("nb d'elem: %d \n", head->size);
 }
+		// ft_printf("Actual: %p\n", tmp);
+		// ft_printf("Prev: %p\n", tmp->previous);
+		// ft_printf("Next: %p\n\n", tmp->next);
