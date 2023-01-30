@@ -11,31 +11,6 @@
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include <math.h>
-
-// int	get_min_price_index(t_pushswap *pushswap)
-// {
-// 	int		min_price;
-// 	int		index;
-// 	t_pile	*tmp;
-
-// 	tmp = pushswap->headb->first;
-// 	min_price = calcul_prix(pushswap,
-// 			find_father_2(pushswap, tmp->nb), tmp->index);
-// 	index = tmp->index;
-// 	while (tmp)
-// 	{
-// 		if (calcul_prix(pushswap,
-// 				find_father_2(pushswap, tmp->nb), tmp->index) < min_price)
-// 		{
-// 			min_price = calcul_prix(pushswap,
-// 					find_father_2(pushswap, tmp->nb), tmp->index);
-// 			index = tmp->index;
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// 	return (index);
-// }
 
 void	fill_count_moves(int *go, t_countmoves *countmoves)
 {
@@ -150,13 +125,13 @@ void	daron_algo_4(t_pushswap *pushswap)
 		while (countmoves.rb--)
 			rotate(pushswap->headb, 'b');
 		while (countmoves.rr--)
-			rr(pushswap);
+			rr(pushswap, 'r');
 		while (countmoves.rra--)
 			r_rotate(pushswap->heada, 'a');
 		while (countmoves.rrb--)
 			r_rotate(pushswap->headb, 'b');
 		while (countmoves.rrr--)
-			rrr(pushswap);
+			rrr(pushswap, 'r');
 		push_a(pushswap);
 	}
 }

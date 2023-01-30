@@ -12,20 +12,22 @@
 
 #include "push_swap.h"
 
-void	rrr(t_pushswap *pushswap)
+void	rrr(t_pushswap *pushswap, char c)
 {
 	r_rotate(pushswap->heada, 'r');
 	r_rotate(pushswap->headb, 'r');
-	ft_printf("rrr\n");
+	if (c == 'r')
+		ft_printf("rrr\n");
 	fill_index_b(pushswap->headb);
 	fill_index_b(pushswap->heada);
 }
 
-void	rr(t_pushswap *pushswap)
+void	rr(t_pushswap *pushswap, char c)
 {
 	rotate(pushswap->heada, 'r');
 	rotate(pushswap->headb, 'r');
-	ft_printf("rr\n");
+	if (c == 'r')
+		ft_printf("rr\n");
 	fill_index_b(pushswap->headb);
 	fill_index_b(pushswap->heada);
 }
@@ -41,8 +43,18 @@ void	swap(t_head *head, char c)
 	head->first->next->nb = tmp;
 	if (c == 'a')
 		ft_printf("sa\n");
-	else
+	else if (c == 'b')
 		ft_printf("sb\n");
 	fill_index_b(head);
 	fill_index_b(head);
+}
+
+void	swap_swap(t_pushswap *pushswap, char c)
+{
+	swap(pushswap->headb, 'r');
+	swap(pushswap->heada, 'r');
+	if (c == 's')
+		ft_printf("ss\n");
+	fill_index_b(pushswap->heada);
+	fill_index_b(pushswap->headb);
 }

@@ -11,7 +11,12 @@
 # **************************************************************************** #
 
 SRCS = main.c parsing.c movements.c utils.c tmp_utils.c algo_utils.c algo_utils_3.c \
-algo_utils_2.c freee.c movements_2.c 
+algo_utils_2.c freee.c movements_2.c utils_2.c 
+
+BONUS_SRCS = bonus/get_next_line/get_next_line.c \
+bonus/get_next_line/get_next_line_utils.c bonus/main.c \
+bonus/movements_checker.c movements_2.c movements.c algo_utils.c utils_2.c \
+utils.c freee.c parsing.c tmp_utils.c 
 
 OBJS = ${SRCS:.c=.o}
 
@@ -21,7 +26,9 @@ CC = gcc -g3
 
 CFLAGS = -Wall -Werror -Wall
 
-LIBS = libft.a -lm
+LIBS = libft.a
+
+LIBS_BONUS = ../libft.a
 
 all : ${NAME}
 
@@ -32,6 +39,9 @@ ${NAME}: ${OBJS}
 
 .c.o :
 	${CC} -Wall -Werror -Wall -c $< -o ${<:.c=.o}
+
+bonus :
+	${CC} ${CFLAGS} ${BONUS_SRCS} ${LIBS} -o checker
 
 norme : 
 	norminette ${SRCS}
@@ -46,5 +56,5 @@ fclean : clean
 	
 re : fclean ${NAME}
 
-.PHONY: all clean fclean re norme libft
-.SILENT:
+.PHONY: all clean fclean re norme libft bonus
+# .SILENT:

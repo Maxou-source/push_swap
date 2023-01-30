@@ -39,61 +39,61 @@ void	algo_for_five(t_pushswap *pushswap)
 	free(sorted_tab);
 }
 
-int	*sort_tab(t_head *head)
-{
-	t_pile	*tmp;
-	int		*tab;
-	int		i[2];
+// int	*sort_tab(t_head *head)
+// {
+// 	t_pile	*tmp;
+// 	int		*tab;
+// 	int		i[2];
 
-	tab = malloc(sizeof(int) * head->size);
-	if (!tab)
-		return (0);
-	tmp = head->first;
-	i[0] = -1;
-	while (++i[0] < head->size)
-	{
-		tab[i[0]] = tmp->nb;
-		tmp = tmp->next;
-	}
-	i[0] = -1;
-	while (++i[0] < head->size)
-	{
-		i[1] = i[0];
-		while (++i[1] < head->size)
-		{
-			if (tab[i[1]] < tab[i[0]])
-				ft_swap(&tab[i[0]], &tab[i[1]]);
-		}
-	}
-	return (tab);
-}
+// 	tab = malloc(sizeof(int) * head->size);
+// 	if (!tab)
+// 		return (0);
+// 	tmp = head->first;
+// 	i[0] = -1;
+// 	while (++i[0] < head->size)
+// 	{
+// 		tab[i[0]] = tmp->nb;
+// 		tmp = tmp->next;
+// 	}
+// 	i[0] = -1;
+// 	while (++i[0] < head->size)
+// 	{
+// 		i[1] = i[0];
+// 		while (++i[1] < head->size)
+// 		{
+// 			if (tab[i[1]] < tab[i[0]])
+// 				ft_swap(&tab[i[0]], &tab[i[1]]);
+// 		}
+// 	}
+// 	return (tab);
+// }
 
-int	fill_list(int ac, char **av, t_pushswap *pushswap)
-{
-	int		i;
-	char	**temp;
-	int		j;
+// int	fill_list(int ac, char **av, t_pushswap *pushswap)
+// {
+// 	int		i;
+// 	char	**temp;
+// 	int		j;
 
-	i = 0;
-	while (++i < ac)
-	{
-		temp = ft_split(av[i], ' ');
-		if (!temp)
-			return (free_tout(pushswap), 0);
-		j = -1;
-		while (temp[++j])
-		{
-			if (!add_back(pushswap->heada, ft_atoi(temp[j])))
-			{
-				free_temp(temp);
-				free_tout(pushswap);
-				exit(0);
-			}
-		}
-		free_temp(temp);
-	}
-	return (1);
-}
+// 	i = 0;
+// 	while (++i < ac)
+// 	{
+// 		temp = ft_split(av[i], ' ');
+// 		if (!temp)
+// 			return (free_tout(pushswap), 0);
+// 		j = -1;
+// 		while (temp[++j])
+// 		{
+// 			if (!add_back(pushswap->heada, ft_atoi(temp[j])))
+// 			{
+// 				free_temp(temp);
+// 				free_tout(pushswap);
+// 				exit(0);
+// 			}
+// 		}
+// 		free_temp(temp);
+// 	}
+// 	return (1);
+// }
 
 void	start_ps(int ac, char **av)
 {
@@ -145,12 +145,12 @@ int	main(int ac, char **av)
 // nombre 0 ou 1 (check)
 // relink Makefile (check)
 // only one argument simple Error (check)
-// re organise files
+// re organise files (check)
 // up mediane to pile b (check)
-// reorganise for sorted tab
-// algo de 5
+// reorganise for sorted tab (check)
+// algo de 5 (check)
 
-// init pushswap dans utils 
-// raccorucir startps
-// reorganise files
-// revierfier malloc
+// init pushswap dans utils (check)
+// raccorucir startps (check)
+// reorganise files (check)
+// revierfier malloc 
