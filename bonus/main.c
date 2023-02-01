@@ -50,6 +50,7 @@ int	last_parsing_checker(t_pushswap *pushswap)
 	}
 	if (check_list_duplicates(pushswap->heada) == 0)
 	{
+		ft_printf("ici\n");
 		ft_putstr_fd("checker : invalid arguments\n", 2);
 		free_tout(pushswap);
 		exit(0);
@@ -68,8 +69,11 @@ int	main(int ac, char **av)
 		return (0);
 	if (last_parsing_checker(pushswap) == 0)
 		return (0);
-	if (!check_numbers(ac, av))
+	if (parsing(ac, av) == 1)
+	{
+		ft_printf("ici\n");
 		return (ft_putstr_fd("checker : invalid arguments", 2), 0);
+	}
 	pushswap->size_final_heada = pushswap->heada->size;
 	while (1)
 	{
@@ -77,7 +81,10 @@ int	main(int ac, char **av)
 		if (!str)
 			break ;
 		if (parsing_checker(str, pushswap) == 0)
+		{
+			ft_printf("ici\n");
 			return (ft_putstr_fd("checker : invalid arguments", 2), 0);
+		}
 		if (check_list_sorted(pushswap->heada) == 0
 			&& pushswap->size_final_heada == pushswap->heada->size)
 			return (free(str), ft_printf("OK\n"), 0);
