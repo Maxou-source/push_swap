@@ -6,7 +6,7 @@
 /*   By: mparisse <mparisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 13:31:06 by mparisse          #+#    #+#             */
-/*   Updated: 2023/01/30 13:31:07 by mparisse         ###   ########.fr       */
+/*   Updated: 2023/02/03 21:30:21 by mparisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	rrr(t_pushswap *pushswap, char c)
 {
-	r_rotate(pushswap->heada, 'r');
-	r_rotate(pushswap->headb, 'r');
+	r_rotate(pushswap->heada, 'r', pushswap);
+	r_rotate(pushswap->headb, 'r', pushswap);
 	if (c == 'r')
 		ft_printf("rrr\n");
 	fill_index_b(pushswap->headb);
@@ -24,8 +24,8 @@ void	rrr(t_pushswap *pushswap, char c)
 
 void	rr(t_pushswap *pushswap, char c)
 {
-	rotate(pushswap->heada, 'r');
-	rotate(pushswap->headb, 'r');
+	rotate(pushswap->heada, 'r', pushswap);
+	rotate(pushswap->headb, 'r', pushswap);
 	if (c == 'r')
 		ft_printf("rr\n");
 	fill_index_b(pushswap->headb);

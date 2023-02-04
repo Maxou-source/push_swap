@@ -6,7 +6,7 @@
 /*   By: mparisse <mparisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 00:30:45 by mparisse          #+#    #+#             */
-/*   Updated: 2023/01/16 16:20:58 by mparisse         ###   ########.fr       */
+/*   Updated: 2023/02/03 21:45:30 by mparisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,16 @@ int	check_numbers(int ac, char **av)
 				return (0);
 			if (ft_isdigit(av[i][j]) == 0 && av[i][j] != '+' && av[i][j] != '-')
 				return (0);
-			if ((av[i][j] == '+' || av[i][j] == '-') &&
-				(ft_isdigit(av[i][j - 1]) == 1))
-				return (0);
 			j++;
 		}
 		i++;
 	}
 	return (1);
 }
+			// if ((av[i][j + 1] == '+' || 
+			// av[i][j + 1] == '-') && (av[i][j - 1]) &&
+			// 	(ft_isdigit(av[i][j]) == 1))
+			// 	return (0);
 
 int	check_list_sorted(t_head *heada)
 {
@@ -85,7 +86,7 @@ int	parsing(int ac, char **av)
 	{
 		str = ft_split(av[i], ' ');
 		if (!str || !*str)
-			return (0);
+			return (free(str), 0);
 		if (check_numbers(ac, str) == 0)
 		{
 			free_temp(str);
@@ -101,7 +102,7 @@ int	last_parsing(t_pushswap *pushswap)
 {
 	if (check_list_sorted(pushswap->heada) == 0)
 	{
-		ft_putstr_fd("Error\n", 2);
+		ft_putstr_fd("push_swap : the list is already sorted\n", 2);
 		free_tout(pushswap);
 		exit(0);
 	}

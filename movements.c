@@ -6,7 +6,7 @@
 /*   By: mparisse <mparisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 15:55:15 by mparisse          #+#    #+#             */
-/*   Updated: 2023/01/26 07:10:02 by mparisse         ###   ########.fr       */
+/*   Updated: 2023/02/03 18:43:20 by mparisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 // 	fill_index_b(head);
 // }
 
-int	r_rotate(t_head *head, char c)
+int	r_rotate(t_head *head, char c, t_pushswap *pushswap)
 {
 	int		tmp;
 	t_pile	*keep;
@@ -41,7 +41,7 @@ int	r_rotate(t_head *head, char c)
 	head->last->next = NULL;
 	res = ft_calloc(sizeof(t_pile), 1);
 	if (!res)
-		return (0);
+		return (free_tout(pushswap), 0);
 	res->nb = tmp;
 	res->previous = NULL;
 	res->next = head->first;
@@ -54,10 +54,11 @@ int	r_rotate(t_head *head, char c)
 		return (ft_printf("rra\n"), free(keep), fill_index_b(head), 1);
 	else if (c == 'b')
 		return (ft_printf("rrb\n"), free(keep), fill_index_b(head), 1);
+	free(keep);
 	return (1);
 }
 
-int	rotate(t_head *head, char c)
+int	rotate(t_head *head, char c, t_pushswap *pushswap)
 {
 	int		tmp;
 	t_pile	*keep;
@@ -69,7 +70,7 @@ int	rotate(t_head *head, char c)
 	head->first->previous = NULL;
 	res = ft_calloc(sizeof(t_pile), 1);
 	if (!res)
-		return (0);
+		return (free_tout(pushswap), 0);
 	res->nb = tmp;
 	res->next = NULL;
 	res->previous = head->last;
@@ -82,6 +83,7 @@ int	rotate(t_head *head, char c)
 		return (ft_printf("ra\n"), free(keep), fill_index_b(head), 1);
 	else if (c == 'b')
 		return (ft_printf("rb\n"), free(keep), fill_index_b(head), 1);
+	free(keep);
 	return (1);
 }
 

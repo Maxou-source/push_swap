@@ -6,11 +6,12 @@
 /*   By: mparisse <mparisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 20:24:16 by mparisse          #+#    #+#             */
-/*   Updated: 2023/01/30 20:24:27 by mparisse         ###   ########.fr       */
+/*   Updated: 2023/02/04 13:59:56 by mparisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include <limits.h>
 
 int	*sort_tab(t_head *head)
 {
@@ -41,6 +42,43 @@ int	*sort_tab(t_head *head)
 	return (tab);
 }
 
+int	atoi_return(int res, int negatif)
+{
+	if (negatif == -1 && res == (MAXOU_INT_MIN * -1) - 1)
+		return (INT_MIN);
+	return (res * negatif);
+}
+
+int	ft_atoi_special(const char *str, char **temp, t_pushswap *pushswap)
+{
+	long	res;
+	int		negatif;
+
+	res = 0;
+	negatif = 1;
+	while (ft_is_space(*str) == 1)
+		str++;
+	if (*str == '+' || *str == '-')
+	{
+		negatif = ((*str == '-') * -1) + ((*str == '+') * 1);
+		str++;
+	}
+	if (*str == '+' || *str == '-')
+		return (ft_putstr_fd("Error\n", 1), exit(0), 0);
+	while (ft_isdigit(*str))
+	{
+		res = res * 10 + (*str - 48);
+		str++;
+		if (res > MAXOU_INT_MIN * -1)
+			return (ft_printf("Error\n", 1), exit(0), 0);
+	}
+	if (*str)
+		return (ft_putstr_fd("Error\n", 1), free_temp(temp),
+			free_tout(pushswap), exit(0), 0);
+	return (atoi_return(res, negatif));
+}
+// res negatif temp 
+
 int	fill_list(int ac, char **av, t_pushswap *pushswap)
 {
 	int		i;
@@ -56,7 +94,8 @@ int	fill_list(int ac, char **av, t_pushswap *pushswap)
 		j = -1;
 		while (temp[++j])
 		{
-			if (!add_back(pushswap->heada, ft_atoi(temp[j])))
+			if (!add_back(pushswap->heada, ft_atoi_special(temp[j],
+						temp, pushswap)))
 			{
 				free_temp(temp);
 				free_tout(pushswap);

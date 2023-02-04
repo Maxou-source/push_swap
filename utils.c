@@ -6,7 +6,7 @@
 /*   By: mparisse <mparisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 18:48:16 by mparisse          #+#    #+#             */
-/*   Updated: 2023/01/20 00:13:38 by mparisse         ###   ########.fr       */
+/*   Updated: 2023/02/03 16:50:07 by mparisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,29 +80,16 @@ void	init_ldc(t_head **head)
 
 t_pushswap	*init_pushswap_ldc(t_pushswap *pushswap)
 {
-	t_head	*heada;
-	t_head	*headb;
-
-	heada = ft_calloc(sizeof(t_head), 1);
-	if (!heada)
-		exit(0);
-	headb = ft_calloc(sizeof(t_head), 1);
-	if (!heada)
-		return (free(heada), exit(0), pushswap);
-	heada->first = NULL;
-	heada->last = NULL;
-	heada->size = 0;
-	headb->first = NULL;
-	headb->last = NULL;
-	headb->size = 0;
-	pushswap = malloc(sizeof(pushswap));
+	pushswap = ft_calloc(sizeof(t_pushswap), 1);
 	if (!pushswap)
 	{
-		free(heada);
-		free(headb);
 		exit(0);
 	}
-	pushswap->heada = heada;
-	pushswap->headb = headb;
+	pushswap->heada = ft_calloc(sizeof(t_head), 1);
+	if (!pushswap->heada)
+		exit(0);
+	pushswap->headb = ft_calloc(sizeof(t_head), 1);
+	if (!pushswap->headb)
+		return (free(pushswap->heada), exit(0), NULL);
 	return (pushswap);
 }

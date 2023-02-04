@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   psh_swp.c                                          :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mparisse <mparisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 00:55:35 by mparisse          #+#    #+#             */
-/*   Updated: 2023/01/28 00:56:11 by mparisse         ###   ########.fr       */
+/*   Updated: 2023/02/03 21:33:15 by mparisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	algo_for_five(t_pushswap *pushswap)
 		if (tmp == sorted_tab[0] || tmp == sorted_tab[1])
 			push_b(pushswap);
 		else
-			rotate(pushswap->heada, 'a');
+			rotate(pushswap->heada, 'a', pushswap);
 	}
-	algo_for_three(pushswap->heada);
+	algo_for_three(pushswap->heada, pushswap);
 	if (pushswap->heada->first->nb > pushswap->heada->first->next->nb)
 		swap(pushswap->headb, 'b');
 	push_a(pushswap);
@@ -95,33 +95,33 @@ void	algo_for_five(t_pushswap *pushswap)
 // 	return (1);
 // }
 
-void	start_ps(int ac, char **av)
+int	start_ps(int ac, char **av)
 {
 	t_pushswap	*pushswap;
 
 	pushswap = 0;
 	pushswap = init_pushswap_ldc(pushswap);
 	if (!fill_list(ac, av, pushswap))
-		return ;
+		return (0);
 	if (last_parsing(pushswap) == 0)
-		return ;
+		return (0);
 	if (pushswap->heada->size == 5)
 	{
 		algo_for_five(pushswap);
 		free_tout(pushswap);
-		return ;
+		return (0);
 	}
 	if (pushswap->heada->size == 2)
-	{
-		r_rotate(pushswap->heada, 'a');
-		return ;
-	}
+		return (r_rotate(pushswap->heada, 'a', pushswap), 0);
+	if (pushswap->heada->size == 3)
+		return (algo_for_three(pushswap->heada, pushswap),
+			free_tout(pushswap), 0);
 	if (!push_to_b_from_mediane(pushswap))
 		free_tout(pushswap);
-	algo_for_three(pushswap->heada);
+	algo_for_three(pushswap->heada, pushswap);
 	daron_algo_4(pushswap);
 	first_at_the_top(pushswap);
-	free_tout(pushswap);
+	return (free_tout(pushswap), 0);
 }
 
 int	main(int ac, char **av)

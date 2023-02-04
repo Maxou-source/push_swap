@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   algo_utils.c                                       :+:      :+:    :+:   */
+/*   algo_utils_median.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mparisse <mparisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 20:52:07 by mparisse          #+#    #+#             */
-/*   Updated: 2023/01/28 01:14:11 by mparisse         ###   ########.fr       */
+/*   Updated: 2023/02/03 21:26:40 by mparisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,29 +40,26 @@ int	push_to_b_from_mediane(t_pushswap *pushswap)
 	int	*sorted_tab;
 
 	sorted_tab = sort_tab(pushswap->heada);
-	mediane = sorted_tab[(pushswap->heada->size / 2) - 1];
+	mediane = sorted_tab[((pushswap->heada->size / 7) * 2)];
 	free(sorted_tab);
-	while (pushswap->heada->size > 3)
+	while (pushswap->heada->size != 3)
 	{
 		sorted_tab = sort_tab(pushswap->heada);
 		if (!sorted_tab)
 			return (0);
-		mediane = sorted_tab[(pushswap->heada->size / 2) - 1];
-		while (numbers_above_median(pushswap, mediane))
+		if (pushswap->heada->first->nb > mediane)
 		{
-			if (pushswap->heada->first->nb > mediane)
-			{
-				push_b(pushswap);
-			}
-			else
-				rotate(pushswap->heada, 'a');
+			push_b(pushswap);
+			mediane = sorted_tab[((pushswap->heada->size / 7) * 5)];
 		}
+		else
+			rotate(pushswap->heada, 'a', pushswap);
 		free(sorted_tab);
 	}
 	return (1);
 }
 
-void	algo_for_three(t_head *head)
+void	algo_for_three(t_head *head, t_pushswap *pushswap)
 {
 	t_pile	*tmp;
 
@@ -72,15 +69,15 @@ void	algo_for_three(t_head *head)
 		tmp = head->last;
 		if ((tmp->nb < tmp->previous->nb) && (tmp->nb < head->first->nb))
 			break ;
-		rotate(head, 'a');
+		rotate(head, 'a', pushswap);
 	}
 	if (head->first->nb > head->first->next->nb)
 	{
 		swap(head, 'a');
-		r_rotate(head, 'a');
+		r_rotate(head, 'a', pushswap);
 	}
 	else
-		r_rotate(head, 'a');
+		r_rotate(head, 'a', pushswap);
 }
 
 void	fill_index_b(t_head *head)

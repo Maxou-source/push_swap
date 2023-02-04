@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   algo_utils2.c                                      :+:      :+:    :+:   */
+/*   apply_price.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mparisse <mparisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 15:11:59 by mparisse          #+#    #+#             */
-/*   Updated: 2023/01/28 09:48:28 by mparisse         ###   ########.fr       */
+/*   Updated: 2023/02/03 18:45:17 by mparisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	first_at_the_top(t_pushswap *pushswap)
 		tmp = find_number_according_to_index(pushswap->heada, tmp);
 		while (pushswap->heada->first->nb != tmp)
 		{
-			r_rotate(pushswap->heada, 'a');
+			r_rotate(pushswap->heada, 'a', pushswap);
 		}
 	}
 	else if (tmp > 0)
@@ -102,7 +102,7 @@ void	first_at_the_top(t_pushswap *pushswap)
 		tmp = find_number_according_to_index(pushswap->heada, tmp);
 		while (pushswap->heada->first->nb != tmp)
 		{
-			rotate(pushswap->heada, 'a');
+			rotate(pushswap->heada, 'a', pushswap);
 		}
 	}
 }
@@ -121,15 +121,15 @@ void	daron_algo_4(t_pushswap *pushswap)
 		fill_count_moves_rr(&countmoves);
 		fill_count_moves_rrr(&countmoves);
 		while (countmoves.ra--)
-			rotate(pushswap->heada, 'a');
+			rotate(pushswap->heada, 'a', pushswap);
 		while (countmoves.rb--)
-			rotate(pushswap->headb, 'b');
+			rotate(pushswap->headb, 'b', pushswap);
 		while (countmoves.rr--)
 			rr(pushswap, 'r');
 		while (countmoves.rra--)
-			r_rotate(pushswap->heada, 'a');
+			r_rotate(pushswap->heada, 'a', pushswap);
 		while (countmoves.rrb--)
-			r_rotate(pushswap->headb, 'b');
+			r_rotate(pushswap->headb, 'b', pushswap);
 		while (countmoves.rrr--)
 			rrr(pushswap, 'r');
 		push_a(pushswap);

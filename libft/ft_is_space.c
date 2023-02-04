@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checker.h                                          :+:      :+:    :+:   */
+/*   ft_is_space.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mparisse <mparisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/30 16:32:06 by mparisse          #+#    #+#             */
-/*   Updated: 2023/02/03 21:50:30 by mparisse         ###   ########.fr       */
+/*   Created: 2023/02/04 13:29:30 by mparisse          #+#    #+#             */
+/*   Updated: 2023/02/04 13:44:44 by mparisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CHECKER_H
-# define CHECKER_H
+#include "libft.h"
 
-# include "../push_swap.h"
-
-// movements checker
-int	push_a_checker(t_pushswap *pushswap);
-int	push_b_checker(t_pushswap *pushswap);
-
-#endif
+int	ft_is_space(char c)
+{
+	if ((c >= '\t' && c <= '\r') || c == ' ')
+		return (1);
+	return (0);
+}

@@ -6,7 +6,7 @@
 /*   By: mparisse <mparisse@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/27 00:58:49 by mparisse          #+#    #+#             */
-/*   Updated: 2023/01/27 13:39:59 by mparisse         ###   ########.fr       */
+/*   Updated: 2023/02/03 21:27:21 by mparisse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void		add_front(t_head *head, int value);
 // void		add_back(t_head *head, int value);
 // movem	ents 
 void		swap(t_head *head, char c);
-int			r_rotate(t_head	*head, char c);
-int			rotate(t_head *head, char c);
+int			r_rotate(t_head	*head, char c, t_pushswap *pushswap);
+int			rotate(t_head *head, char c, t_pushswap *pushswap);
 // void		swap_swap(t_pushswap *pushwap);
 void		push_b(t_pushswap *pushswap);
 void		push_a(t_pushswap *pushswap);
@@ -81,7 +81,7 @@ void		init_ldc(t_head **head);
 // int			*sort_tab(int	*tab, int size);
 int			find_mediane(t_head *head, int	*sorted_tab);
 int			push_to_b_from_mediane(t_pushswap *pushswap);
-void		algo_for_three(t_head *head);
+void		algo_for_three(t_head *head, t_pushswap *pushswap);
 void		daron_algo(t_pushswap *pushswap);
 void		daron_algo_2(t_pushswap *t_pushswap, int *sorted_tab);
 void		daron_algo_3(t_pushswap *pushswap);
